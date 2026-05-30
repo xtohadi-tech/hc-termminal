@@ -1286,5 +1286,15 @@ updateSessions();updateClock();
 setInterval(()=>{updateSessions();updateClock();},1000);
 loadAll();
 </script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/hc-terminal/sw.js')
+      .then(r => console.log('SW OK'))
+      .catch(e => console.log('SW error', e));
+  });
+}
+</script>
 </body>
 </html>
