@@ -319,6 +319,25 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--mono);min-hei
 .cal-remind-btn{font-size:9px;padding:2px 7px;background:none;border:1px solid var(--border);color:var(--text3);font-family:var(--mono);border-radius:3px;cursor:pointer;margin-top:5px;transition:all .15s}
 .cal-remind-btn:hover,.cal-remind-btn.on{border-color:var(--yellow);color:var(--yellow);background:rgba(251,191,36,.06)}
 
+/* SECTOR BADGE */
+.sec-badge{font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle;font-weight:600}
+
+/* COMPARE BOX */
+.cmp-box{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:12px;margin-bottom:8px}
+.cmp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.cmp-sym{display:flex;flex-direction:column;gap:2px}
+.cmp-sym-a{font-size:16px;font-weight:700;color:var(--accent)}
+.cmp-sym-b{font-size:16px;font-weight:700;color:var(--orange)}
+.cmp-row{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);font-size:11px}
+.cmp-row:last-of-type{border-bottom:none}
+.cmp-val{color:var(--text2);text-align:center}
+.cmp-val:first-child{text-align:left}
+.cmp-val:last-child{text-align:right}
+.cmp-lbl{font-size:9px;color:var(--text3);text-align:center;white-space:nowrap}
+.cmp-win{color:var(--green);font-weight:700}
+.cmp-verdict{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;font-weight:600;padding-top:8px;border-top:1px solid var(--border)}
+.rec-selected{border-color:var(--purple)!important;background:rgba(167,139,250,.04)!important}
+
 /* NOTIF */
 #notif{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:8px 13px;font-size:11px;color:var(--accent);z-index:999;display:none;white-space:nowrap;max-width:90vw;box-shadow:0 4px 24px rgba(0,0,0,.5)}
 
@@ -434,8 +453,16 @@ body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4
       <option value="DeFi">💱 DeFi</option>
       <option value="AI">🤖 AI / Oracle</option>
       <option value="GameFi">🎮 GameFi</option>
-      <option value="Meme">🐸 Meme</option>
-      <option value="Cosmos">⚛ Cosmos</option>
+      <option value="Metaverse">🌐 Metaverse</option>
+      <option value="FanToken">⚽ Fan Token</option>
+      <option value="Payment">💳 Payment</option>
+      <option value="Wallet">👛 Wallet</option>
+      <option value="Storage">💾 Storage</option>
+      <option value="Enterprise">🏢 Enterprise</option>
+      <option value="Cosmos">⚛ Cosmos Eco</option>
+      <option value="Move">◆ Move Eco</option>
+      <option value="Privacy">🔒 Privacy</option>
+      <option value="Social">💬 Social</option>
     </select>
     <button class="btn-sm" onclick="loadAll()">↻</button>
   </div>
@@ -450,8 +477,11 @@ body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4
 
 <!-- REKOMENDASI -->
 <div id="sec-rek" class="sec">
-  <div class="info-box">📌 Koin turunan dari top gainer · jalur arus · TP default 5%</div>
-  <div class="btn-row" style="justify-content:flex-end"><button class="btn-sm" onclick="doRek()">↻ Refresh</button></div>
+  <div class="info-box">📌 Sumber: Jalur Arus + Ekosistem + Saingan · TP default 5% · Chain filter tersedia</div>
+  <div class="btn-row" style="justify-content:space-between;align-items:center">
+    <button class="btn-sm" onclick="doRek()">↻ Refresh</button>
+    <span style="font-size:9px;color:var(--text3)">Tap ⇌ pada 2 koin untuk bandingkan</span>
+  </div>
   <div id="rekOut"><div class="empty">Scan dulu di tab SCANNER</div></div>
 </div>
 
@@ -590,8 +620,155 @@ const ARUS_DEFAULT=[
 
 const CG_IDS={BTC:'bitcoin',ETH:'ethereum',SOL:'solana',BNB:'binancecoin',AVAX:'avalanche-2',ADA:'cardano',DOT:'polkadot',XRP:'ripple',LINK:'chainlink',LDO:'lido-dao',ARB:'arbitrum',OP:'optimism',POL:'matic-network',CRV:'curve-dao-token',AAVE:'aave',UNI:'uniswap',RAY:'raydium',FET:'fetch-ai',RENDER:'render-token',GRT:'the-graph',AXS:'axie-infinity',SLP:'smooth-love-potion',MANA:'decentraland',SAND:'the-sandbox',VET:'vechain',VTHO:'vethor-token',XLM:'stellar',HBAR:'hedera-hashgraph',ALGO:'algorand',QNT:'quant-network',ATOM:'cosmos',OSMO:'osmosis',KSM:'kusama',THETA:'theta-token',TFUEL:'theta-fuel',NEO:'neo',GAS:'gas',ONT:'ontology',LTC:'litecoin',CHZ:'chiliz',APE:'apecoin',YGG:'yield-guild-games',FLUX:'zelcash',CFX:'conflux-token',MASK:'mask-network',AR:'arweave',FIDA:'bonfida',API3:'api3',PYTH:'pyth-network',BAND:'band-protocol',TRB:'tellor',RLC:'iexec-rlc',HFT:'hashflow',LPT:'livepeer',QUICK:'quick','1INCH':'1inch',DIA:'dia-data',NMR:'numeraire',GLM:'golem',STEEM:'steem',HIVE:'hive',GMT:'stepn',ACA:'acala',PHA:'phala-network',STORJ:'storj',GTC:'gitcoin',CVC:'civic',TWT:'trust-wallet-token',C98:'coin98',SFP:'safepal',SXP:'swipe',ENA:'ethena',ROSE:'oasis-network',AXL:'axelar',SCRT:'secret',COTI:'coti',ACH:'alchemy-pay',UTK:'utrust',SUI:'sui',CELO:'celo',DUSK:'dusk-network',CKB:'nervos-network',SYS:'syscoin',PIVX:'pivx',GHST:'aavegotchi',LOKA:'league-of-kingdoms',RONIN:'ronin',POLYX:'polymesh-network',ONE:'harmony',OG:'og-fan-token',ALPINE:'alpine-f1-team-fan-token',SANTOS:'santos-fc-fan-token',JUV:'juventus-fan-token',LAZIO:'ss-lazio-fan-token',JOE:'joe',QI:'benqi',PYR:'vulcan-forged',ILV:'illuvium',ALICE:'my-neighbor-alice',MBOX:'mobox',XNO:'nano',HIGH:'highstreet'};
 
-const ECO={BTC:{n:'Bitcoin',t:'L1',sec:'L1',e:['STX','ORDI'],c:['ETH','SOL','BNB']},ETH:{n:'Ethereum',t:'L1',sec:'L1',e:['UNI','AAVE','LINK','CRV','LDO'],c:['SOL','AVAX','BNB']},SOL:{n:'Solana',t:'L1',sec:'L1',e:['RAY','PYTH','FIDA'],c:['ETH','AVAX','SUI']},BNB:{n:'BNB Chain',t:'L1',sec:'L1',e:['TKO'],c:['ETH','SOL']},AVAX:{n:'Avalanche',t:'L1',sec:'L1',e:['JOE','QI'],c:['SOL','ETH']},ARB:{n:'Arbitrum',t:'L2',sec:'L2',e:[],c:['OP','POL','ETH']},OP:{n:'Optimism',t:'L2',sec:'L2',e:[],c:['ARB','POL']},DOT:{n:'Polkadot',t:'L0',sec:'L1',e:['ACA','PHA','KSM'],c:['ATOM']},ATOM:{n:'Cosmos',t:'L0',sec:'Cosmos',e:['OSMO','AXL','SCRT','BAND'],c:['DOT']},FET:{n:'Fetch.ai',t:'AI',sec:'AI',e:['NMR'],c:['RENDER','GRT','LINK']},RENDER:{n:'Render',t:'AI/GPU',sec:'AI',e:[],c:['FET','GRT']},GRT:{n:'The Graph',t:'Oracle',sec:'AI',e:[],c:['LINK','RENDER']},LINK:{n:'Chainlink',t:'Oracle',sec:'AI',e:[],c:['PYTH','BAND']},AXS:{n:'Axie Infinity',t:'GameFi',sec:'GameFi',e:['SLP','RONIN'],c:['SAND','MANA']},SAND:{n:'Sandbox',t:'Metaverse',sec:'GameFi',e:[],c:['MANA','AXS']}};
-const SECTOR_COINS={L1:['BTC','ETH','SOL','BNB','AVAX','ADA','DOT','XRP','SUI','ALGO'],L2:['POL','ARB','OP'],DeFi:['UNI','AAVE','CRV','LDO','RAY','1INCH'],AI:['FET','RENDER','GRT','NMR','LINK','PYTH','BAND'],GameFi:['AXS','SAND','MANA','ILV','PYR','ALICE'],Meme:['DOGE','SHIB','PEPE','WIF','BONK'],Cosmos:['ATOM','OSMO','AXL','SCRT','BAND']};
+// ECO Database — nama, tipe, sektor, ekosistem (turunan), kompetitor (saingan), chain
+const ECO={
+  // ── LAYER 1 ──
+  BTC:{n:'Bitcoin',t:'L1',sec:'L1',chain:'Bitcoin',e:['STX','ORDI','RUNE'],c:['ETH','SOL','BNB']},
+  ETH:{n:'Ethereum',t:'L1',sec:'L1',chain:'Ethereum',e:['UNI','AAVE','LINK','CRV','LDO','COMP','SNX','ENS','RPL','SUSHI','MKR','PENDLE','1INCH'],c:['SOL','AVAX','BNB','ADA']},
+  SOL:{n:'Solana',t:'L1',sec:'L1',chain:'Solana',e:['RAY','JUP','PYTH','FIDA','BONK','WIF','JTO'],c:['ETH','AVAX','SUI','APT']},
+  BNB:{n:'BNB Chain',t:'L1',sec:'L1',chain:'BNB Chain',e:['CAKE','TKO','XVS'],c:['ETH','SOL','AVAX']},
+  AVAX:{n:'Avalanche',t:'L1',sec:'L1',chain:'Avalanche',e:['JOE','QI','BENQI'],c:['SOL','ETH','BNB']},
+  ADA:{n:'Cardano',t:'L1',sec:'L1',chain:'Cardano',e:[],c:['SOL','ETH','AVAX','DOT']},
+  XRP:{n:'Ripple',t:'Payment L1',sec:'Payment',chain:'XRP Ledger',e:[],c:['XLM','HBAR','ALGO','QNT']},
+  XLM:{n:'Stellar',t:'Payment L1',sec:'Payment',chain:'Stellar',e:[],c:['XRP','HBAR','ALGO']},
+  HBAR:{n:'Hedera',t:'Payment L1',sec:'Payment',chain:'Hedera',e:[],c:['XRP','XLM','ALGO']},
+  ALGO:{n:'Algorand',t:'Payment L1',sec:'Payment',chain:'Algorand',e:[],c:['XRP','XLM','HBAR']},
+  QNT:{n:'Quant',t:'Interop',sec:'Payment',chain:'Multi',e:[],c:['XRP','DOT','ATOM']},
+  SUI:{n:'Sui Network',t:'L1',sec:'Move',chain:'Sui',e:['CETUS'],c:['APT','ETH','SOL']},
+  APT:{n:'Aptos',t:'L1',sec:'Move',chain:'Aptos',e:[],c:['SUI','SOL','ETH']},
+  TON:{n:'TON Network',t:'L1',sec:'L1',chain:'TON',e:['NOT','DOGS'],c:['SOL','SUI','ETH']},
+  NEAR:{n:'NEAR Protocol',t:'L1',sec:'L1',chain:'NEAR',e:[],c:['SOL','AVAX','APT']},
+  VET:{n:'VeChain',t:'Supply Chain L1',sec:'Enterprise',chain:'VeChain',e:['VTHO'],c:['ETH','NEO']},
+  VTHO:{n:'VeThor Token',t:'Gas Token',sec:'Enterprise',chain:'VeChain',e:[],c:['GAS']},
+  NEO:{n:'NEO',t:'Smart Economy L1',sec:'Enterprise',chain:'NEO',e:['GAS'],c:['VET','ETH']},
+  GAS:{n:'GAS',t:'Gas Token',sec:'Enterprise',chain:'NEO',e:[],c:['VTHO']},
+  ONE:{n:'Harmony',t:'L1',sec:'L1',chain:'Harmony',e:[],c:['AVAX','MATIC','ETH']},
+  CELO:{n:'Celo',t:'Mobile L1',sec:'Payment',chain:'Celo',e:[],c:['ADA','XLM','ALGO']},
+  COTI:{n:'COTI',t:'Payment',sec:'Payment',chain:'COTI',e:[],c:['XRP','XLM','ACH']},
+
+  // ── LAYER 2 ──
+  ARB:{n:'Arbitrum',t:'ETH L2',sec:'L2',chain:'Ethereum',e:['GMX','RDNT','MAGIC'],c:['OP','POL','ETH']},
+  OP:{n:'Optimism',t:'ETH L2',sec:'L2',chain:'Ethereum',e:['VELO','SNX'],c:['ARB','POL','ETH']},
+  POL:{n:'Polygon',t:'ETH L2',sec:'L2',chain:'Ethereum',e:['QUICK','GHST'],c:['ARB','OP','ETH']},
+  STX:{n:'Stacks',t:'BTC L2',sec:'L2',chain:'Bitcoin',e:[],c:['ORDI','BTC']},
+  IMX:{n:'Immutable X',t:'Gaming L2',sec:'GameFi',chain:'Ethereum',e:['GODS'],c:['RON','GALA']},
+  RON:{n:'Ronin',t:'Gaming L1',sec:'GameFi',chain:'Ronin',e:['AXS','SLP'],c:['IMX','GALA']},
+  RONIN:{n:'Ronin',t:'Gaming L1',sec:'GameFi',chain:'Ronin',e:['AXS','SLP'],c:['IMX','GALA']},
+
+  // ── DeFi ──
+  UNI:{n:'Uniswap',t:'DEX',sec:'DeFi',chain:'Ethereum',e:[],c:['SUSHI','CAKE','JUP','RAY','1INCH']},
+  AAVE:{n:'Aave',t:'Lending',sec:'DeFi',chain:'Ethereum',e:[],c:['COMP','MKR','RDNT']},
+  CRV:{n:'Curve',t:'Stable DEX',sec:'DeFi',chain:'Ethereum',e:[],c:['1INCH','UNI','SUSHI']},
+  LDO:{n:'Lido',t:'LST',sec:'DeFi',chain:'Ethereum',e:[],c:['RPL','JTO']},
+  RAY:{n:'Raydium',t:'DEX',sec:'DeFi',chain:'Solana',e:[],c:['JUP','ORCA','UNI']},
+  JUP:{n:'Jupiter',t:'DEX Aggregator',sec:'DeFi',chain:'Solana',e:[],c:['1INCH','RAY','UNI']},
+  GMX:{n:'GMX',t:'Perp DEX',sec:'DeFi',chain:'Arbitrum',e:[],c:['GNS','DYDX']},
+  '1INCH':{n:'1inch',t:'DEX Aggregator',sec:'DeFi',chain:'Multi',e:[],c:['JUP','PARA','CRV']},
+  QUICK:{n:'QuickSwap',t:'DEX',sec:'DeFi',chain:'Polygon',e:[],c:['UNI','SUSHI','RAY']},
+  JOE:{n:'Trader Joe',t:'DEX',sec:'DeFi',chain:'Avalanche',e:[],c:['UNI','CAKE','RAY']},
+  QI:{n:'BENQI',t:'Lending',sec:'DeFi',chain:'Avalanche',e:[],c:['AAVE','COMP']},
+  CAKE:{n:'PancakeSwap',t:'DEX',sec:'DeFi',chain:'BNB Chain',e:[],c:['UNI','SUSHI','JUP']},
+  SUSHI:{n:'SushiSwap',t:'DEX',sec:'DeFi',chain:'Multi',e:[],c:['UNI','CAKE','RAY']},
+  COMP:{n:'Compound',t:'Lending',sec:'DeFi',chain:'Ethereum',e:[],c:['AAVE','MKR']},
+  MKR:{n:'MakerDAO',t:'CDP',sec:'DeFi',chain:'Ethereum',e:['DAI'],c:['AAVE','COMP']},
+
+  // ── AI / ORACLE ──
+  FET:{n:'Fetch.ai',t:'AI Agent',sec:'AI',chain:'Multi',e:['AGIX','OCEAN'],c:['TAO','RENDER','GRT']},
+  RENDER:{n:'Render Network',t:'GPU Computing',sec:'AI',chain:'Solana',e:[],c:['FET','GLM','GRT']},
+  GRT:{n:'The Graph',t:'Data Index',sec:'AI',chain:'Multi',e:[],c:['LINK','RENDER','FET']},
+  LINK:{n:'Chainlink',t:'Oracle',sec:'AI',chain:'Multi',e:[],c:['PYTH','BAND','API3','DIA']},
+  PYTH:{n:'Pyth Network',t:'Oracle',sec:'AI',chain:'Solana',e:[],c:['LINK','BAND','API3']},
+  BAND:{n:'Band Protocol',t:'Oracle',sec:'AI',chain:'Cosmos',e:[],c:['LINK','PYTH','API3']},
+  API3:{n:'API3',t:'Oracle',sec:'AI',chain:'Multi',e:[],c:['LINK','PYTH','BAND']},
+  DIA:{n:'DIA',t:'Oracle',sec:'AI',chain:'Multi',e:[],c:['LINK','BAND','API3']},
+  NMR:{n:'Numeraire',t:'AI/ML',sec:'AI',chain:'Ethereum',e:[],c:['FET','GRT']},
+  GLM:{n:'Golem',t:'GPU Computing',sec:'AI',chain:'Ethereum',e:[],c:['RENDER','RLC']},
+  RLC:{n:'iExec RLC',t:'Cloud Computing',sec:'AI',chain:'Ethereum',e:[],c:['GLM','RENDER']},
+  TRB:{n:'Tellor',t:'Oracle',sec:'AI',chain:'Ethereum',e:[],c:['LINK','BAND']},
+  LPT:{n:'Livepeer',t:'Video Streaming',sec:'AI',chain:'Ethereum',e:[],c:['THETA','GLM']},
+
+  // ── GAMEFI / METAVERSE ──
+  AXS:{n:'Axie Infinity',t:'P2E Game',sec:'GameFi',chain:'Ronin',e:['SLP','RONIN'],c:['SAND','MANA','GALA']},
+  SLP:{n:'Smooth Love Potion',t:'Game Token',sec:'GameFi',chain:'Ronin',e:[],c:['GHST']},
+  SAND:{n:'The Sandbox',t:'Metaverse',sec:'Metaverse',chain:'Ethereum',e:[],c:['MANA','GALA','AXS']},
+  MANA:{n:'Decentraland',t:'Metaverse',sec:'Metaverse',chain:'Ethereum',e:[],c:['SAND','GALA']},
+  GALA:{n:'Gala Games',t:'GameFi Platform',sec:'GameFi',chain:'Multi',e:[],c:['AXS','SAND','IMX']},
+  ILV:{n:'Illuvium',t:'RPG Game',sec:'GameFi',chain:'Ethereum',e:[],c:['AXS','GALA','SAND']},
+  PYR:{n:'Vulcan Forged',t:'GameFi',sec:'GameFi',chain:'Polygon',e:[],c:['AXS','GALA','ILV']},
+  ALICE:{n:'My Neighbor Alice',t:'Game',sec:'GameFi',chain:'BNB Chain',e:[],c:['AXS','SAND','MBOX']},
+  MBOX:{n:'MOBOX',t:'GameFi',sec:'GameFi',chain:'BNB Chain',e:[],c:['AXS','ALICE','GALA']},
+  YGG:{n:'Yield Guild Games',t:'Gaming Guild',sec:'GameFi',chain:'Ethereum',e:[],c:['AXS','GALA']},
+  GHST:{n:'Aavegotchi',t:'NFT Game',sec:'GameFi',chain:'Polygon',e:[],c:['AXS','SAND']},
+  LOKA:{n:'League of Kingdoms',t:'Strategy Game',sec:'GameFi',chain:'Polygon',e:[],c:['AXS','SAND']},
+  HIGH:{n:'Highstreet',t:'Metaverse Commerce',sec:'Metaverse',chain:'BNB Chain',e:[],c:['SAND','MANA']},
+
+  // ── COSMOS ECO ──
+  ATOM:{n:'Cosmos Hub',t:'IBC Hub',sec:'Cosmos',chain:'Cosmos',e:['OSMO','AXL','SCRT','BAND','TIA'],c:['DOT','AVAX']},
+  OSMO:{n:'Osmosis',t:'Cosmos DEX',sec:'Cosmos',chain:'Osmosis',e:[],c:['RAY','JUP','UNI']},
+  AXL:{n:'Axelar',t:'Cross-chain',sec:'Cosmos',chain:'Axelar',e:[],c:['DOT','QNT','ATOM']},
+  SCRT:{n:'Secret Network',t:'Privacy L1',sec:'Cosmos',chain:'Secret',e:[],c:['PIVX','DUSK']},
+  ROSE:{n:'Oasis Network',t:'Privacy L1',sec:'Cosmos',chain:'Oasis',e:[],c:['SCRT','DUSK','PIVX']},
+  ACA:{n:'Acala',t:'DeFi Hub',sec:'Cosmos',chain:'Polkadot',e:[],c:['OSMO','RAY']},
+  KSM:{n:'Kusama',t:'Canary Network',sec:'Cosmos',chain:'Kusama',e:[],c:['DOT','ATOM']},
+  PHA:{n:'Phala Network',t:'Privacy Computing',sec:'Cosmos',chain:'Polkadot',e:[],c:['GLM','RLC']},
+
+  // ── PRIVACY ──
+  PIVX:{n:'PIVX',t:'Privacy Coin',sec:'Privacy',chain:'PIVX',e:[],c:['SCRT','DUSK','ROSE']},
+  DUSK:{n:'Dusk Network',t:'Privacy L1',sec:'Privacy',chain:'Dusk',e:[],c:['SCRT','PIVX']},
+
+  // ── STORAGE ──
+  AR:{n:'Arweave',t:'Permanent Storage',sec:'Storage',chain:'Arweave',e:[],c:['STORJ','STRAX','FIL']},
+  STORJ:{n:'Storj',t:'Decentralized Storage',sec:'Storage',chain:'Ethereum',e:[],c:['AR','STRAX','FIL']},
+  STRAX:{n:'Stratis',t:'Enterprise Blockchain',sec:'Enterprise',chain:'Stratis',e:[],c:['AR','STORJ']},
+  FLUX:{n:'Flux',t:'Web3 Infrastructure',sec:'Storage',chain:'Flux',e:[],c:['AR','STORJ']},
+  MASK:{n:'Mask Network',t:'Social Web3',sec:'Web3',chain:'Ethereum',e:[],c:['ENS','LENS']},
+  CFX:{n:'Conflux',t:'China L1',sec:'L1',chain:'Conflux',e:[],c:['NEO','VET','ONT']},
+
+  // ── ONT / ONG ──
+  ONT:{n:'Ontology',t:'Enterprise L1',sec:'Enterprise',chain:'Ontology',e:['ONG'],c:['NEO','VET']},
+  ONG:{n:'Ontology Gas',t:'Gas Token',sec:'Enterprise',chain:'Ontology',e:[],c:['GAS','VTHO']},
+
+  // ── FAN TOKEN ──
+  CHZ:{n:'Chiliz',t:'Fan Token Platform',sec:'FanToken',chain:'Chiliz',e:['OG','ALPINE','SANTOS','JUV','LAZIO'],c:['SAND','GALA']},
+  OG:{n:'OG Fan Token',t:'Fan Token',sec:'FanToken',chain:'Chiliz',e:[],c:['ALPINE','SANTOS','CHZ']},
+  ALPINE:{n:'Alpine F1 Token',t:'Fan Token',sec:'FanToken',chain:'Chiliz',e:[],c:['OG','SANTOS','CHZ']},
+  SANTOS:{n:'Santos FC Token',t:'Fan Token',sec:'FanToken',chain:'Chiliz',e:[],c:['OG','JUV','CHZ']},
+  JUV:{n:'Juventus Fan Token',t:'Fan Token',sec:'FanToken',chain:'Chiliz',e:[],c:['LAZIO','SANTOS','CHZ']},
+  LAZIO:{n:'Lazio Fan Token',t:'Fan Token',sec:'FanToken',chain:'Chiliz',e:[],c:['JUV','SANTOS','CHZ']},
+
+  // ── PAYMENT / WALLET ──
+  ACH:{n:'Alchemy Pay',t:'Payment',sec:'Payment',chain:'Multi',e:[],c:['COTI','UTK','XRP']},
+  UTK:{n:'Utrust',t:'Payment',sec:'Payment',chain:'Ethereum',e:[],c:['ACH','COTI','XRP']},
+  TWT:{n:'Trust Wallet Token',t:'Wallet',sec:'Wallet',chain:'BNB Chain',e:[],c:['C98','SFP']},
+  C98:{n:'Coin98',t:'Wallet',sec:'Wallet',chain:'Multi',e:[],c:['TWT','SFP']},
+  SFP:{n:'SafePal',t:'Wallet',sec:'Wallet',chain:'BNB Chain',e:[],c:['TWT','C98']},
+  SXP:{n:'Swipe',t:'Payment',sec:'Payment',chain:'BNB Chain',e:[],c:['TWT','ACH']},
+
+  // ── THETA ECO ──
+  THETA:{n:'Theta Network',t:'Video Streaming',sec:'Media',chain:'Theta',e:['TFUEL'],c:['LPT','STORJ']},
+  TFUEL:{n:'Theta Fuel',t:'Gas Token',sec:'Media',chain:'Theta',e:[],c:['GAS','VTHO']},
+
+  // ── MISC ──
+  STEEM:{n:'Steem',t:'Social Blockchain',sec:'Social',chain:'Steem',e:[],c:['HIVE']},
+  HIVE:{n:'Hive',t:'Social Blockchain',sec:'Social',chain:'Hive',e:[],c:['STEEM']},
+  GMT:{n:'STEPN',t:'Move-to-Earn',sec:'GameFi',chain:'Solana',e:[],c:['SLP','AXS']},
+  ENA:{n:'Ethena',t:'Synthetic USD',sec:'DeFi',chain:'Ethereum',e:[],c:['MKR','FRAX']},
+  HFT:{n:'Hashflow',t:'DEX',sec:'DeFi',chain:'Multi',e:[],c:['1INCH','JUP','UNI']},
+  FIDA:{n:'Bonfida',t:'Solana Name Service',sec:'DeFi',chain:'Solana',e:[],c:['ENS','LINK']},
+  GTC:{n:'Gitcoin',t:'Public Goods',sec:'Web3',chain:'Ethereum',e:[],c:['MASK']},
+  CVC:{n:'Civic',t:'Identity',sec:'Web3',chain:'Ethereum',e:[],c:['GTC']},
+  POLYX:{n:'Polymesh',t:'Security Token',sec:'Enterprise',chain:'Polymesh',e:[],c:['XRP','QNT']},
+  CKB:{n:'Nervos Network',t:'L1',sec:'L1',chain:'Nervos',e:[],c:['ETH','DOT']},
+  SYS:{n:'Syscoin',t:'L1',sec:'L1',chain:'Syscoin',e:[],c:['ETH','BNB']},
+  XNO:{n:'Nano',t:'Payment',sec:'Payment',chain:'Nano',e:[],c:['XRP','XLM','COTI']},
+  LTC:{n:'Litecoin',t:'Payment',sec:'Payment',chain:'Litecoin',e:[],c:['XNO','BCH','DASH']},
+  AUCTION:{n:'Bounce Finance',t:'Auction',sec:'DeFi',chain:'Multi',e:[],c:['DEGO','UNI']},
+  DEGO:{n:'Dego Finance',t:'NFT+DeFi',sec:'DeFi',chain:'Multi',e:[],c:['AUCTION','YGG']},
+  FARM:{n:'Harvest Finance',t:'Yield Farming',sec:'DeFi',chain:'Ethereum',e:[],c:['AAVE','COMP']},
+};
+
+const SECTOR_COLORS={L1:'#38bdf8',L2:'#a78bfa',DeFi:'#22c55e',AI:'#fb923c',GameFi:'#f472b6',Metaverse:'#e879f9',FanToken:'#fbbf24',Payment:'#34d399',Wallet:'#60a5fa',Storage:'#94a3b8',Enterprise:'#64748b',Cosmos:'#818cf8',Move:'#c084fc',Privacy:'#f87171',Social:'#a3e635',Media:'#22d3ee',Web3:'#7dd3fc'};
+const SECTOR_COINS={L1:['BTC','ETH','SOL','BNB','AVAX','ADA','DOT','XRP','SUI','ALGO','NEAR','TON','NEO','CFX','CKB','SYS','ONE'],L2:['POL','ARB','OP','STX','IMX','RON'],DeFi:['UNI','AAVE','CRV','LDO','RAY','1INCH','JUP','GMX','CAKE','COMP','MKR','SUSHI','HFT','ENA','FARM','AUCTION','DEGO'],AI:['FET','RENDER','GRT','NMR','LINK','PYTH','BAND','API3','DIA','GLM','RLC','TRB','LPT'],GameFi:['AXS','SAND','MANA','ILV','PYR','ALICE','MBOX','YGG','GALA','GHST','LOKA','GMT','HIGH','SLP'],Metaverse:['SAND','MANA','HIGH'],FanToken:['CHZ','OG','ALPINE','SANTOS','JUV','LAZIO'],Payment:['XRP','XLM','HBAR','ALGO','QNT','COTI','ACH','UTK','SXP','XNO','LTC'],Wallet:['TWT','C98','SFP'],Storage:['AR','STORJ','STRAX','FLUX'],Enterprise:['VET','VTHO','NEO','GAS','ONT','ONG','POLYX'],Cosmos:['ATOM','OSMO','AXL','SCRT','BAND','ROSE','ACA','KSM','PHA'],Move:['SUI','APT'],Privacy:['PIVX','SCRT','DUSK','ROSE'],Social:['STEEM','HIVE','GTC','CVC','MASK']};
 const STABLE=new Set(['USDT','USDC','BUSD','TUSD','DAI','FDUSD','USDD','USDE']);
 
 // ============================================================
@@ -856,8 +1033,13 @@ function renderScanner(){
     const ratio=vol/(vol*3);
     const rc=ratio>=1?'rat-hot':ratio>=.5?'rat-warm':'rat-cold';
     const rl=ratio>=1?'🔥 VOL>MC':ratio>=.5?'⚡ >50%MC':'· LOW';
+    const meta=ECO[sym];
+    const secCol=meta?SECTOR_COLORS[meta.sec]||'var(--text3)':'var(--text3)';
     h+=`<div class="ticker-card" onclick="quickAnalysis('${sym}')">
-      <div class="tc-sym">${sym}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="tc-sym">${sym}</div>
+        ${meta?`<span style="font-size:8px;padding:1px 4px;border-radius:2px;background:${secCol}18;color:${secCol};border:1px solid ${secCol}30">${meta.sec}</span>`:''}
+      </div>
       <div class="tc-price">$${fmtPx(p)}</div>
       <div class="tc-chg ${pct>0?'up':pct<0?'down':'neu'}">${pct>0?'+':''}${pct.toFixed(2)}%</div>
       <div class="tc-vol">Vol: $${fmt(vol)}</div>
@@ -951,9 +1133,12 @@ function renderAnalList(){
     const spike=getSpike(x.s);
     const spikeHtml=spike&&spike>1.5?`<span class="cr-spike" style="background:${spike>3?'rgba(251,146,60,.15)':'rgba(34,197,94,.12)'};color:${spike>3?'var(--orange)':'var(--green)'}">↑${spike.toFixed(1)}x</span>`:'';
     const isStar=S.awl.has(x.s);
+    const meta=ECO[x.s];
+    const secCol=meta?SECTOR_COLORS[meta.sec]||'var(--text3)':'var(--text3)';
+    const secBadge=meta?`<span style="font-size:8px;padding:1px 4px;border-radius:2px;background:${secCol}18;color:${secCol};margin-left:3px">${meta.sec}</span>`:'';
     return`<div class="coin-row${S.sel===x.s?' active':''}" onclick="selectCoin('${x.s}')">
       <span class="cr-rank">${i+1}</span>
-      <span class="cr-sym">${x.s}</span>
+      <span class="cr-sym">${x.s}${secBadge}</span>
       <span class="cr-pct ${pc(x.td.c)}">${pf(x.td.c)}</span>
       <span class="cr-px">${fmtP(x.d24.p)}</span>
       <span class="cr-star${isStar?' on':''}" onclick="event.stopPropagation();toggleAWatch('${x.s}')">${isStar?'★':'☆'}</span>
@@ -1044,47 +1229,249 @@ function saveCoinNote(sym){
 }
 
 // ============================================================
-// REKOMENDASI — TP DEFAULT 5%
+// CONFIDENCE SCORE
 // ============================================================
+function calcConfidence(sym, tpct, tvol){
+  const d=S.d24[sym]; if(!d) return 0;
+  const btcC=(S.d24['BTC']||{c:0}).c;
+  // 1. Vol/MC ratio (30%)
+  const volRatio=Math.min(d.v/(d.v*3)*100,100);
+  const vScore=volRatio>=100?30:volRatio>=50?20:volRatio>=20?10:5;
+  // 2. RS vs top gainer — belum naik sebanyak trigger (25%)
+  const lag=tpct-d.c; const rsScore=lag>=tpct*0.8?25:lag>=tpct*0.5?18:lag>=tpct*0.2?10:3;
+  // 3. RS vs BTC (15%)
+  const rs=d.c-btcC; const btcScore=rs>5?15:rs>0?10:rs>-5?5:0;
+  // 4. Momentum (15%)
+  const mom=calcMomentum(sym); const momScore=Math.round(mom/100*15);
+  // 5. Volume spike 1H (15%)
+  const spike=getSpike(sym); const spikeScore=spike===null?7:spike>=3?15:spike>=1.5?10:spike>=1?7:3;
+  return Math.min(100, vScore+rsScore+btcScore+momScore+spikeScore);
+}
+
+function confidenceColor(score){
+  return score>=75?'var(--green)':score>=50?'var(--yellow)':score>=30?'var(--orange)':'var(--red)';
+}
+function confidenceLabel(score){
+  return score>=75?'🔥 Tinggi':score>=50?'⚡ Sedang':score>=30?'⚠ Rendah':'❄ Sangat Rendah';
+}
+
+// Entry zone berdasarkan high/low 24h
+function getEntryZone(sym){
+  const d=S.d24[sym]; if(!d||!d.h||!d.l) return null;
+  const support=d.l*1.01;
+  const resistance=d.h*0.99;
+  const ideal=d.p*(1-Math.min((d.p-d.l)/d.p*0.5,0.05));
+  return{support,resistance,ideal,p:d.p};
+}
+
+// ============================================================
+// REKOMENDASI v7 — sektor + turunan + saingan + confidence + chain filter + entry zone + compare
+// ============================================================
+let rekChainFilter='all';
+let compareMode=false;
+let compareCoins=[];
+
+function setRekChain(chain,el){
+  rekChainFilter=chain;
+  document.querySelectorAll('.rek-chain-btn').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
+  doRek();
+}
+
+function toggleCompare(sym){
+  if(compareCoins.includes(sym)){compareCoins=compareCoins.filter(c=>c!==sym);}
+  else if(compareCoins.length<2){compareCoins.push(sym);}
+  if(compareCoins.length===2)renderCompare();
+  else doRek();
+}
+
+function renderCompare(){
+  const [a,b]=compareCoins;
+  const da=S.d24[a],db=S.d24[b];
+  if(!da||!db){doRek();return;}
+  const metaA=ECO[a],metaB=ECO[b];
+  const momA=calcMomentum(a),momB=calcMomentum(b);
+  const spikeA=getSpike(a),spikeB=getSpike(b);
+  const btcC=(S.d24['BTC']||{c:0}).c;
+  const rsA=da.c-btcC,rsB=db.c-btcC;
+  const frA=S.fr[a],frB=S.fr[b];
+  const confA=calcConfidence(a,da.c,da.v),confB=calcConfidence(b,db.c,db.v);
+
+  const row=(lbl,vA,vB,higherBetter=true)=>{
+    const numA=parseFloat(vA),numB=parseFloat(vB);
+    const aWin=higherBetter?numA>numB:numA<numB;
+    return`<div class="cmp-row">
+      <span class="cmp-val ${aWin?'cmp-win':''}">${vA}</span>
+      <span class="cmp-lbl">${lbl}</span>
+      <span class="cmp-val ${!aWin?'cmp-win':''}">${vB}</span>
+    </div>`;
+  };
+
+  let h=`<div class="cmp-box">
+    <div class="cmp-header">
+      <div class="cmp-sym"><span class="cmp-sym-a">${a}</span><span style="font-size:10px;color:var(--text3)">${metaA?metaA.sec:'—'}</span></div>
+      <span style="font-size:10px;color:var(--text3)">VS</span>
+      <div class="cmp-sym" style="text-align:right"><span class="cmp-sym-b">${b}</span><span style="font-size:10px;color:var(--text3)">${metaB?metaB.sec:'—'}</span></div>
+    </div>
+    ${row('Change 24H',pf(da.c),pf(db.c))}
+    ${row('Volume 24H','$'+fmt(da.v),'$'+fmt(db.v))}
+    ${row('RS vs BTC',pf(rsA),pf(rsB))}
+    ${row('Momentum',momA+'/100',momB+'/100')}
+    ${row('Vol Spike 1H',spikeA?spikeA.toFixed(2)+'x':'—',spikeB?spikeB.toFixed(2)+'x':'—')}
+    ${row('Funding Rate',frA!==undefined?frA.toFixed(4)+'%':'—',frB!==undefined?frB.toFixed(4)+'%':'—',false)}
+    ${row('Confidence',confA+'',confB+'')}
+    <div class="cmp-verdict">
+      <span style="color:${confA>confB?'var(--green)':'var(--text3)'}">${confA>confB?'✓ '+a+' lebih menarik':''}</span>
+      <span style="color:${confB>confA?'var(--green)':'var(--text3)'}">${confB>confA?'✓ '+b+' lebih menarik':''}</span>
+    </div>
+    <button class="btn-sm" onclick="compareCoins=[];doRek()" style="margin-top:8px;width:100%">↩ Kembali ke Rekomendasi</button>
+  </div>`;
+  document.getElementById('rekOut').innerHTML=h;
+}
+
 function doRek(){
   if(!tickers.length){document.getElementById('rekOut').innerHTML='<div class="empty">Scan dulu di tab SCANNER</div>';return;}
+  if(compareCoins.length===2){renderCompare();return;}
+
+  // Ambil semua kandidat dari: jalur arus + turunan ekosistem + saingan
   let recs=[];
   const allArus=getAllArus();
+  const activeSyms=new Set(tickers.slice(0,30).map(t=>t.symbol.replace('USDT','')));
+
   tickers.slice(0,20).forEach(top=>{
     const ts=top.symbol.replace('USDT','');
     const tpct=parseFloat(top.priceChangePercent);
+    const tvol=parseFloat(top.quoteVolume);
     if(tpct<3)return;
-    const row=allArus.find(r=>r.includes(ts));if(!row)return;
-    const idx=row.indexOf(ts);
-    row.slice(idx+1).forEach(c=>{
-      const tk=tickers.find(t=>t.symbol===c+'USDT');if(!tk)return;
-      const cv=parseFloat(tk.quoteVolume),cp=parseFloat(tk.priceChangePercent),cpr=parseFloat(tk.lastPrice);
-      // TP default 5%
-      const status=cp<tpct*0.25?'BUY':cp<tpct*0.65?'WATCH':'AVOID';
-      recs.push({sym:c,by:ts,vol:cv,price:cpr,pct:cp,tp:5,status});
-    });
+    const topMeta=ECO[ts];
+    const topSec=topMeta?.sec||'—';
+    const topChain=topMeta?.chain||'—';
+
+    // Sumber 1: jalur arus
+    const row=allArus.find(r=>r.includes(ts));
+    if(row){
+      const idx=row.indexOf(ts);
+      row.slice(idx+1).forEach(c=>{
+        const tk=tickers.find(t=>t.symbol===c+'USDT');if(!tk)return;
+        const meta=ECO[c];
+        recs.push({sym:c,by:ts,byReason:'arus',vol:parseFloat(tk.quoteVolume),price:parseFloat(tk.lastPrice),pct:parseFloat(tk.priceChangePercent),tpct,tvol,chain:meta?.chain||'—',sec:meta?.sec||'—',tp:5});
+      });
+    }
+
+    // Sumber 2: turunan ekosistem (eco tokens)
+    if(topMeta?.e?.length){
+      topMeta.e.forEach(c=>{
+        const tk=tickers.find(t=>t.symbol===c+'USDT');if(!tk)return;
+        if(recs.find(r=>r.sym===c))return;
+        const meta=ECO[c];
+        recs.push({sym:c,by:ts,byReason:'eco',vol:parseFloat(tk.quoteVolume),price:parseFloat(tk.lastPrice),pct:parseFloat(tk.priceChangePercent),tpct,tvol,chain:meta?.chain||topChain,sec:meta?.sec||topSec,tp:5});
+      });
+    }
+
+    // Sumber 3: saingan (competitors) yang belum naik
+    if(topMeta?.c?.length){
+      topMeta.c.forEach(c=>{
+        const tk=tickers.find(t=>t.symbol===c+'USDT');if(!tk)return;
+        if(recs.find(r=>r.sym===c))return;
+        const meta=ECO[c];
+        recs.push({sym:c,by:ts,byReason:'saingan',vol:parseFloat(tk.quoteVolume),price:parseFloat(tk.lastPrice),pct:parseFloat(tk.priceChangePercent),tpct,tvol,chain:meta?.chain||'—',sec:meta?.sec||'—',tp:5});
+      });
+    }
   });
+
+  // Dedupe
   recs=recs.filter((r,i,a)=>a.findIndex(x=>x.sym===r.sym)===i);
-  recs.sort((a,b)=>({BUY:0,WATCH:1,AVOID:2}[a.status]-{BUY:0,WATCH:1,AVOID:2}[b.status]));
+
+  // Chain filter
+  if(rekChainFilter!=='all') recs=recs.filter(r=>r.chain===rekChainFilter);
+
+  // Hitung confidence & status
+  recs=recs.map(r=>{
+    const conf=calcConfidence(r.sym,r.tpct,r.tvol);
+    const status=r.pct<r.tpct*0.25?'BUY':r.pct<r.tpct*0.65?'WATCH':'AVOID';
+    return{...r,conf,status};
+  });
+
+  // Sort: BUY dulu, lalu confidence
+  recs.sort((a,b)=>{
+    const order={BUY:0,WATCH:1,AVOID:2};
+    return (order[a.status]-order[b.status])||b.conf-a.conf;
+  });
+
   if(!recs.length){document.getElementById('rekOut').innerHTML='<div class="empty">Belum ada sinyal saat ini.</div>';return;}
-  let h='';
+
+  // Kumpulkan chains unik untuk filter
+  const chains=[...new Set(recs.map(r=>r.chain).filter(c=>c&&c!=='—'))].slice(0,8);
+  let chainFilterHtml=`<div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:8px">
+    <button class="btn-sm rek-chain-btn${rekChainFilter==='all'?' on':''}" onclick="setRekChain('all',this)" style="${rekChainFilter==='all'?'border-color:var(--accent);color:var(--accent)':''}">Semua Chain</button>
+    ${chains.map(ch=>`<button class="btn-sm rek-chain-btn${rekChainFilter===ch?' on':''}" onclick="setRekChain('${ch}',this)" style="${rekChainFilter===ch?'border-color:var(--accent);color:var(--accent)':''}">${ch}</button>`).join('')}
+  </div>`;
+
+  // Compare mode info
+  let compareInfo=compareCoins.length>0?`<div class="tip-box" style="margin-bottom:6px">🔍 Bandingkan: ${compareCoins.join(' vs ')} ${compareCoins.length===1?'— pilih 1 koin lagi':''} <button class="btn-sm" onclick="compareCoins=[];doRek()" style="margin-left:4px">✕</button></div>`:'';
+
+  let h=chainFilterHtml+compareInfo;
+
+  const reasonLabel={arus:'📊 Arus koin',eco:'🌿 Ekosistem',saingan:'⚔ Saingan'};
+  const reasonColor={arus:'var(--accent)',eco:'var(--green)',saingan:'var(--orange)'};
+
   recs.slice(0,15).forEach(r=>{
     const bc=r.status==='BUY'?'badge-buy':r.status==='WATCH'?'badge-watch':'badge-avoid';
     const tpPrice=r.price*(1+r.tp/100);
-    h+=`<div class="rec-card">
-      <div class="rec-head"><span class="rec-sym">$${r.sym}</span><span class="badge ${bc}">${r.status}</span></div>
-      <div class="rec-row"><span class="rk">Dipicu</span><span class="rv">$${r.by} naik</span></div>
+    const confCol=confidenceColor(r.conf);
+    const zone=getEntryZone(r.sym);
+    const secCol=SECTOR_COLORS[r.sec]||'var(--text3)';
+    const isCmp=compareCoins.includes(r.sym);
+
+    h+=`<div class="rec-card${isCmp?' rec-selected':''}">
+      <div class="rec-head">
+        <div>
+          <span class="rec-sym">${r.sym}</span>
+          <span class="sec-badge" style="background:${secCol}18;color:${secCol};border:1px solid ${secCol}40">${r.sec}</span>
+        </div>
+        <div style="display:flex;gap:4px;align-items:center">
+          <span class="badge ${bc}">${r.status}</span>
+          <button class="btn-sm" style="padding:2px 6px;${isCmp?'border-color:var(--purple);color:var(--purple)':''}" onclick="toggleCompare('${r.sym}')" title="Bandingkan">${isCmp?'✓ Cmp':'⇌'}</button>
+        </div>
+      </div>
+
+      <div class="rec-row"><span class="rk">Dipicu</span><span class="rv" style="color:${reasonColor[r.byReason]}">${reasonLabel[r.byReason]} $${r.by}</span></div>
+      <div class="rec-row"><span class="rk">Chain</span><span class="rv">${r.chain}</span></div>
       <div class="rec-row"><span class="rk">Volume 24H</span><span class="rv">$${fmt(r.vol)}</span></div>
-      <div class="rec-row"><span class="rk">Harga</span><span class="rv">$${fmtPx(r.price)}</span></div>
+      <div class="rec-row"><span class="rk">Harga</span><span class="rv">$${r.price<0.0001?r.price.toFixed(8):r.price<1?r.price.toFixed(4):r.price.toFixed(2)}</span></div>
       <div class="rec-row"><span class="rk">Change 24H</span><span class="rv ${r.pct>0?'up':'down'}">${r.pct>0?'+':''}${r.pct.toFixed(2)}%</span></div>
+
+      <!-- Confidence Score -->
+      <div style="margin:6px 0 4px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+          <span style="font-size:9px;color:var(--text3)">CONFIDENCE SCORE</span>
+          <span style="font-size:11px;font-weight:700;color:${confCol}">${r.conf}/100 ${confidenceLabel(r.conf)}</span>
+        </div>
+        <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:${r.conf}%;background:${confCol};border-radius:2px;transition:width .5s"></div>
+        </div>
+      </div>
+
+      <!-- Entry Zone -->
+      ${zone?`<div style="background:var(--bg3);border-radius:4px;padding:6px 8px;margin:5px 0;font-size:10px">
+        <div style="color:var(--text3);margin-bottom:3px;font-size:9px">📍 ENTRY ZONE</div>
+        <div style="display:flex;justify-content:space-between">
+          <span>Support: <span style="color:var(--green)">$${fmtPx(zone.support)}</span></span>
+          <span>Ideal: <span style="color:var(--accent)">$${fmtPx(zone.ideal)}</span></span>
+          <span>Resist: <span style="color:var(--red)">$${fmtPx(zone.resistance)}</span></span>
+        </div>
+      </div>`:''}
+
       <div class="rec-tp">🎯 TP +${r.tp}% → $${fmtPx(tpPrice)}</div>
-      <div class="rec-rule">Target konservatif 5% · Sesuaikan dengan analisis candle</div>
+      <div class="rec-rule">Target konservatif 5% · Sesuaikan dengan candle</div>
       <div class="rec-actions">
         <button class="btn-sm green" onclick="quickJurnal('${r.sym}',${r.price})">+ Jurnal</button>
         <button class="btn-sm" onclick="quickAnalysis('${r.sym}')">Analisis</button>
+        <button class="btn-sm" style="${isCmp?'border-color:var(--purple);color:var(--purple)':''}" onclick="toggleCompare('${r.sym}')">⇌ Compare</button>
       </div>
     </div>`;
   });
+
   document.getElementById('rekOut').innerHTML=h;
 }
 
