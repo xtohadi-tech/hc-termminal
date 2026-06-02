@@ -478,9 +478,10 @@ body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4
 <!-- REKOMENDASI -->
 <div id="sec-rek" class="sec">
   <div class="info-box">📌 Sumber: Jalur Arus + Ekosistem + Saingan · TP default 5% · Chain filter tersedia</div>
+  <div class="warn-box" style="font-size:9px">⚠️ Bukan financial advice. Semua keputusan trading adalah tanggung jawab pengguna. DYOR!</div>
   <div class="btn-row" style="justify-content:space-between;align-items:center">
     <button class="btn-sm" onclick="doRek()">↻ Refresh</button>
-    <span style="font-size:9px;color:var(--text3)">Tap ⇌ pada 2 koin untuk bandingkan</span>
+    <span style="font-size:9px;color:var(--text3)">Tap ⇌ pada 2 koin untuk bandingkan · 📤 share</span>
   </div>
   <div id="rekOut"><div class="empty">Scan dulu di tab SCANNER</div></div>
 </div>
@@ -590,7 +591,27 @@ body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4
   <div id="calOut"><div class="empty">Tekan ↻ untuk load event</div></div>
 </div>
 
+</div><!-- end main -->
+
+<!-- FOOTER -->
+<div style="text-align:center;padding:16px 12px 24px;border-top:1px solid var(--border);margin-top:4px">
+  <div style="font-size:10px;color:var(--text3);margin-bottom:3px">HC Terminal Pro <span style="color:var(--accent)">v7.0</span></div>
+  <div style="font-size:9px;color:var(--text3);margin-bottom:8px">by <span style="color:var(--yellow)">Hotelier Crypto</span> · Binance + CoinGecko</div>
+  <div style="font-size:9px;color:#475569;margin-bottom:10px;line-height:1.6;max-width:300px;margin-left:auto;margin-right:auto">⚠️ Bukan financial advice. Semua keputusan trading adalah tanggung jawab pengguna. DYOR!</div>
+  <div style="display:flex;gap:5px;justify-content:center;flex-wrap:wrap">
+    <button class="btn-sm" onclick="localStorage.removeItem('hc_onboard');showOnboarding()">📖 Cara Pakai</button>
+    <button class="btn-sm" onclick="shareApp()">📤 Share App</button>
+    <button class="btn-sm" onclick="if(confirm('Reset semua data lokal?')){localStorage.clear();location.reload()}">🗑 Reset Data</button>
+  </div>
 </div>
+
+<script>
+function shareApp(){
+  const text='🚀 HC Terminal Pro — Crypto Trading Terminal\n\nScanner top gainer real-time, rekomendasi koin, arus koin 30 jalur, Fear & Greed Index, jam bursa, dan banyak lagi.\n\nGratis & bisa install di HP kayak app!\n🔗 xtohadi-tech.github.io/hc-termminal/\n\n#crypto #bitcoin #altcoin #trading #indonesia';
+  if(navigator.share){navigator.share({title:'HC Terminal Pro',text,url:'https://xtohadi-tech.github.io/hc-termminal/'}).catch(()=>{});}
+  else{navigator.clipboard.writeText(text).then(()=>showNotif('✓ Link disalin!','success')).catch(()=>{showNotif('Salin manual: xtohadi-tech.github.io/hc-termminal/');});}
+}
+</script>
 
 <script>
 // ============================================================
@@ -1256,11 +1277,15 @@ function confidenceLabel(score){
 
 // Entry zone berdasarkan high/low 24h
 function getEntryZone(sym){
-  const d=S.d24[sym]; if(!d||!d.h||!d.l) return null;
-  const support=d.l*1.01;
-  const resistance=d.h*0.99;
-  const ideal=d.p*(1-Math.min((d.p-d.l)/d.p*0.5,0.05));
-  return{support,resistance,ideal,p:d.p};
+  const d=S.d24[sym]; if(!d) return null;
+  const p=d.p;
+  // Estimasi support/resist dari perubahan harga kalau h/l tidak ada
+  const high=d.h&&d.h>0?d.h:p*(1+Math.abs(d.c||2)/100);
+  const low=d.l&&d.l>0?d.l:p*(1-Math.abs(d.c||2)/100);
+  const support=low*1.005;
+  const resistance=high*0.995;
+  const ideal=low+(high-low)*0.3;
+  return{support,resistance,ideal,p};
 }
 
 // ============================================================
@@ -1472,6 +1497,7 @@ function doRek(){
         <button class="btn-sm green" onclick="quickJurnal('${r.sym}',${r.price})">+ Jurnal</button>
         <button class="btn-sm" onclick="quickAnalysis('${r.sym}')">Analisis</button>
         <button class="btn-sm" style="${isCmp?'border-color:var(--purple);color:var(--purple)':''}" onclick="toggleCompare('${r.sym}')">⇌ Cmp</button>
+        <button class="btn-sm" onclick="shareSignal('${r.sym}','${r.status}',${r.tp},'${r.by}','${reasonLabel[r.byReason]}')">📤</button>
       </div>
     </div>`;
   });
@@ -1755,6 +1781,74 @@ function renderCalendar(){
 }
 
 // ============================================================
+// SHARE SINYAL
+// ============================================================
+function shareSignal(sym, status, tp, by, reason){
+  const d=S.d24[sym];
+  const price=d?fmtPx(d.p):'—';
+  const pct=d?pf(d.c):'—';
+  const tpPrice=d?(d.p*(1+tp/100)).toFixed(4):'—';
+  const text=`🚨 SINYAL CRYPTO - HC Terminal\n\n💎 $${sym} [${status}]\n📊 Sumber: ${reason} $${by}\n💰 Harga: $${price} (${pct})\n🎯 Target TP +${tp}%: $${tpPrice}\n\n⚠️ Bukan financial advice. DYOR!\n\n🔗 xtohadi-tech.github.io/hc-termminal/`;
+  if(navigator.share){
+    navigator.share({title:'HC Terminal — Sinyal '+sym,text}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text).then(()=>showNotif('✓ Sinyal disalin!','success')).catch(()=>{
+      const el=document.createElement('textarea');
+      el.value=text;document.body.appendChild(el);el.select();
+      document.execCommand('copy');document.body.removeChild(el);
+      showNotif('✓ Sinyal disalin!','success');
+    });
+  }
+}
+
+// ============================================================
+// ONBOARDING
+// ============================================================
+function showOnboarding(){
+  const seen=localStorage.getItem('hc_onboard');
+  if(seen)return;
+  const modal=document.createElement('div');
+  modal.id='onboard-modal';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(6,10,18,.95);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+  modal.innerHTML=`<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;max-width:360px;width:100%;font-family:var(--mono)">
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="width:48px;height:48px;background:var(--accent);border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#060a12;margin-bottom:10px">HC</div>
+      <div style="font-size:16px;font-weight:700;color:var(--accent)">HC Terminal Pro</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:3px">by Hotelier Crypto · v7.0</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:11px">
+        <span style="font-size:16px">📊</span>
+        <div><div style="color:var(--text);font-weight:600">SCANNER</div><div style="color:var(--text3)">Tap SCAN untuk lihat top gainer real-time dari Binance</div></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:11px">
+        <span style="font-size:16px">🎯</span>
+        <div><div style="color:var(--text);font-weight:600">REKOMENDASI</div><div style="color:var(--text3)">Koin turunan, ekosistem & saingan dari top gainer</div></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:11px">
+        <span style="font-size:16px">🔀</span>
+        <div><div style="color:var(--text);font-weight:600">FLOW DETECTOR</div><div style="color:var(--text3)">Deteksi jalur arus koin yang sedang aktif</div></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:11px">
+        <span style="font-size:16px">📝</span>
+        <div><div style="color:var(--text);font-weight:600">JURNAL</div><div style="color:var(--text3)">Catat trade & hitung P/L otomatis</div></div>
+      </div>
+    </div>
+    <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:8px 10px;font-size:10px;color:#f87171;margin-bottom:14px;line-height:1.6">
+      ⚠️ <strong>DISCLAIMER:</strong> HC Terminal adalah alat bantu analisis. Bukan financial advice. Semua keputusan trading adalah tanggung jawab pengguna. Selalu DYOR!
+    </div>
+    <button onclick="closeOnboard()" style="width:100%;padding:10px;background:var(--accent);border:none;border-radius:6px;color:#060a12;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px">▶ MULAI TRADING</button>
+  </div>`;
+  document.body.appendChild(modal);
+}
+
+function closeOnboard(){
+  const el=document.getElementById('onboard-modal');
+  if(el)el.remove();
+  try{localStorage.setItem('hc_onboard','1');}catch(e){}
+}
+
+// ============================================================
 // CLOCK
 // ============================================================
 function updateClock(){document.getElementById('hdr-clock').textContent=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
@@ -1767,10 +1861,14 @@ updateSessions();updateClock();
 setInterval(()=>{updateSessions();updateClock();},1000);
 loadAll();
 requestNotifPermission();
+showOnboarding();
 
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    // Detect jika di GitHub Pages subfolder
+    const swPath=location.pathname.includes('/hc-termminal')?'/hc-termminal/sw.js':
+                 location.pathname.includes('/hc-terminal')?'/hc-terminal/sw.js':'/sw.js';
+    navigator.serviceWorker.register(swPath).catch(()=>{});
   });
 }
 </script>
