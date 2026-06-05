@@ -606,6 +606,19 @@ body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4
   <div id="routeScoreOut"><div class="empty">Scan dulu di tab SCANNER</div></div>
 </div>
 
+<!-- TELEGRAM ALERT CONFIG -->
+<div id="sec-telegram" class="sec">
+  <div class="lbl">Telegram Alert</div>
+  <div class="info-box">Kirim alert ke Telegram saat ada Route Score kuat atau Backtest konsisten. Isi Bot Token + Chat ID kamu.</div>
+  <div class="field"><label>Bot Token</label><input id="tg-token" placeholder="123456:ABC-DEF..."></div>
+  <div class="field"><label>Chat ID</label><input id="tg-chat" placeholder="123456789"></div>
+  <div class="btn-row">
+    <button class="btn-sm green" onclick="saveTelegramConfig()">💾 Simpan Config</button>
+    <button class="btn-sm" onclick="testTelegram()">📨 Test Kirim</button>
+  </div>
+  <span style="font-size:10px;color:var(--text3)" id="tg-status">Belum dikonfigurasi</span>
+</div>
+
 <!-- BACKTEST -->
 <div id="sec-backtest" class="sec">
   <div class="lbl">Quick Backtest</div>
@@ -1933,6 +1946,76 @@ if('serviceWorker' in navigator){
                  location.pathname.includes('/hc-terminal')?'/hc-terminal/sw.js':'/sw.js';
     navigator.serviceWorker.register(swPath).catch(()=>{});
   });
+}
+
+
+function saveTelegramConfig(){
+  try {
+    localStorage.setItem('hc_tg_token', (document.getElementById('tg-token').value || '').trim());
+    localStorage.setItem('hc_tg_chat', (document.getElementById('tg-chat').value || '').trim());
+    refreshTelegramStatus();
+    showNotif('✓ Config Telegram disimpan', 'success');
+  } catch (e) { showNotif('Gagal simpan config', 'warn'); }
+}
+function refreshTelegramStatus(){
+  const token = localStorage.getItem('hc_tg_token');
+  const chat = localStorage.getItem('hc_tg_chat');
+  const el = document.getElementById('tg-status');
+  if (!el) return;
+  el.textContent = token && chat ? 'Tersimpan' : 'Belum dikonfigurasi';
+  if (token && chat) {
+    const inp1 = document.getElementById('tg-token');
+    const inp2 = document.getElementById('tg-chat');
+    if (inp1) inp1.value = token;
+    if (inp2) inp2.value = chat;
+  }
+}
+async function telegramSend(text){
+  const token = localStorage.getItem('hc_tg_token');
+  const chat = localStorage.getItem('hc_tg_chat');
+  if (!token || !chat) return false;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chat, text, parse_mode: 'HTML' }),
+      signal: AbortSignal.timeout(10000)
+    });
+    const data = await res.json();
+    return !!data.ok;
+  } catch (e) { return false; }
+}
+async function testTelegram(){
+  const ok = await telegramSend('✅ HC Terminal: test pesan Telegram berhasil.');
+  showNotif(ok ? '✓ Pesan terkirim' : 'Gagal kirim', ok ? 'success' : 'warn');
+}
+function saveRouteSnapshot(){
+  try {
+    const rows = (typeof buildRouteStrengthRows === 'function' ? buildRouteStrengthRows() : []) || [];
+    const snap = {
+      date: new Date().toISOString().slice(0,10),
+      updatedAt: new Date().toISOString(),
+      rows
+    };
+    const key = 'hc_route_snapshots';
+    const prev = JSON.parse(localStorage.getItem(key) || '[]');
+    prev.push(snap);
+    if (prev.length > 90) prev.splice(0, prev.length - 90);
+    localStorage.setItem(key, JSON.stringify(prev));
+  } catch (e) {}
+}
+function loadRouteSnapshots(){
+  try { return JSON.parse(localStorage.getItem('hc_route_snapshots') || '[]'); }
+  catch (e) { return []; }
+}
+async function checkAlerts(){
+  const rows = (typeof buildRouteStrengthRows === 'function' ? buildRouteStrengthRows() : []) || [];
+  const strong = rows.filter(r => r.score >= 80);
+  if (!strong.length) return;
+  const lines = strong.slice(0,5).map(r => `🟢 ${r.id} ${r.route} — ${r.score}`);
+  const text = `🚨 HC Terminal Route Alert\n` + lines.join('\n') + '\n⏰ ' + new Date().toLocaleString('id-ID');
+  const sent = await telegramSend(text);
+  if (sent) showNotif('✓ Telegram alert terkirim', 'success');
 }
 
 function getStrengthColor(score){return score>=75?'var(--green)':score>=50?'var(--yellow)':score>=30?'var(--orange)':'var(--text3)'}
