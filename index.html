@@ -1883,10 +1883,35 @@ function updateClock(){document.getElementById('hdr-clock').textContent=new Date
 // ============================================================
 // INIT
 // ============================================================
+async function initialScan(){
+  if (!Object.keys(S.arusPrices || {}).length) {
+    await loadArusPrices();
+  }
+  if (typeof doScan === 'function') {
+    await doScan();
+  }
+  if (typeof doRek === 'function') {
+    await doRek();
+  }
+  if (typeof renderFlow === 'function') {
+    await renderFlow();
+  }
+  if (typeof renderRouteStrength === 'function') {
+    renderRouteStrength();
+  }
+  if (typeof renderBacktestOutput === 'function') {
+    renderBacktestOutput();
+  }
+  loadCalendar();
+  loadAll();
+  refreshAutoRouteLabel();
+}
+
 renderJurnal();renderArus();
 updateSessions();updateClock();
 setInterval(()=>{updateSessions();updateClock();},1000);
 loadAll();
+(async () => { await initialScan(); })();
 requestNotifPermission();
 showOnboarding();
 
