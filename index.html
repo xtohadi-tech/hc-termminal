@@ -597,8 +597,10 @@ body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4
 <div id="sec-route-score" class="sec">
   <div class="lbl">Route Strength</div>
   <div class="info-box">Skor kekuatan jalur arus (0-100) dari gabungan: persentase koin naik, rata-rata % pergerakan, dan konsistensi arah antar koin dalam 1 jalur.</div>
-  <div class="btn-row">
+  <div class="btn-row" style="flex-wrap:wrap">
     <button class="btn-sm" onclick="runRouteStrength()">↻ Hitung Route Score</button>
+    <button class="btn-sm" style="color:#fff;background:rgba(59,130,246,.12)" onclick="exportRouteCSV()">⬇ CSV</button>
+    <button class="btn-sm" style="color:#fff;background:rgba(168,85,247,.12)" onclick="exportRouteJSON()">⬇ JSON</button>
     <span style="font-size:10px;color:var(--text3);margin-left:6px" id="route-score-update">Belum dihitung</span>
   </div>
   <div id="routeScoreOut"><div class="empty">Scan dulu di tab SCANNER</div></div>
@@ -608,8 +610,10 @@ body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4
 <div id="sec-backtest" class="sec">
   <div class="lbl">Quick Backtest</div>
   <div class="info-box">Estimasi sederhana: jika hari ini suatu jalur aktif, apakah kandidat berikutnya cenderung naik di timeframe 1H dan 4H berdasarkan arah saat ini.</div>
-  <div class="btn-row">
+  <div class="btn-row" style="flex-wrap:wrap">
     <button class="btn-sm" onclick="runBacktest()">↻ Jalankan Backtest</button>
+    <button class="btn-sm" style="color:#fff;background:rgba(59,130,246,.12)" onclick="exportBacktestCSV()">⬇ CSV</button>
+    <button class="btn-sm" style="color:#fff;background:rgba(168,85,247,.12)" onclick="exportBacktestJSON()">⬇ JSON</button>
     <span style="font-size:10px;color:var(--text3);margin-left:6px" id="backtest-update">Belum dijalankan</span>
   </div>
   <div id="backtestOut"><div class="empty">Scan dulu, lalu jalankan backtest.</div></div>
@@ -1989,6 +1993,59 @@ function renderBacktestOutput(){
   const u=document.getElementById('backtest-update');if(u)u.textContent='Update: '+new Date().toLocaleTimeString('id-ID');
 }
 function runBacktest(){renderBacktestOutput();showNotif('Backtest dijalankan','success');}
+function downloadFile(name, content, type){
+  try {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    a.click();
+    URL.revokeObjectURL(url);
+    showNotif('✓ File siap diunduh', 'success');
+  } catch (e) { showNotif('Gagal download file', 'warn'); }
+}
+function exportRouteCSV(){
+  const rows = buildRouteStrengthRows() || [];
+  const head = 'id,route,score,label\n';
+  const body = rows.map(r => `${r.id},"${r.route}",${r.score},"${getStrengthLabel(r.score)}"`).join('\n');
+  downloadFile('route-score.csv', head + body, 'text/csv');
+}
+function exportRouteJSON(){
+  const rows = buildRouteStrengthRows() || [];
+  downloadFile('route-score.json', JSON.stringify({updatedAt: new Date().toISOString(), rows}, null, 2), 'application/json');
+}
+function exportBacktestCSV(){
+  const rows = (typeof buildBacktestRows === 'function' ? buildBacktestRows() : []) || [];
+  const head = 'id,route,next,consistency\n';
+  const body = rows.map(r => `${r.id},"${r.route}","${r.next}",${r.consistency}`).join('\n');
+  downloadFile('backtest.csv', head + body, 'text/csv');
+}
+function exportBacktestJSON(){
+  const rows = (typeof buildBacktestRows === 'function' ? buildBacktestRows() : []) || [];
+  downloadFile('backtest.json', JSON.stringify({updatedAt: new Date().toISOString(), rows}, null, 2), 'application/json');
+}
+function buildBacktestRows(){
+  if (!tickers.length) return [];
+  const allArus = getAllArus();
+  const activeSyms = new Set(tickers.slice(0,50).map(t => t.symbol.replace('USDT','')));
+  const rows = [];
+  allArus.forEach((row,i)=>{
+    const hits = row.filter(c => activeSyms.has(c));
+    if (hits.length < 2) return;
+    const idx = row.indexOf(hits[hits.length-1]);
+    const next = row[idx+1];
+    if (!next) return;
+    const upCount = row.slice(0, idx+1).filter((c,ci)=>{
+      if (ci === 0) return true;
+      const a = S.d24[c], b = S.d24[row[ci-1]];
+      return a && b && a.c > 0 && b.c > 0;
+    }).length;
+    const consistency = Math.round((upCount / (idx+1)) * 100);
+    rows.push({id: `J${String(i+1).padStart(2,'0')}`, route: row.join(' -> '), next, consistency});
+  });
+  return rows;
+}
 </script>
 </body>
 </html>
