@@ -1,0 +1,657 @@
+{
+  "updatedAt": "2026-06-05T08:29:54.135Z",
+  "scores": [
+    {
+      "route": "HFT→LPT→QUICK→1INCH→CRV",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "HFT",
+          "score": 33
+        },
+        {
+          "symbol": "LPT",
+          "score": 33
+        },
+        {
+          "symbol": "QUICK",
+          "score": 33
+        },
+        {
+          "symbol": "1INCH",
+          "score": 33
+        },
+        {
+          "symbol": "CRV",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "LDO→ETH→OP→POL→ARB",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "LDO",
+          "score": 33
+        },
+        {
+          "symbol": "ETH",
+          "score": 33
+        },
+        {
+          "symbol": "OP",
+          "score": 33
+        },
+        {
+          "symbol": "POL",
+          "score": 33
+        },
+        {
+          "symbol": "ARB",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "LINK→DIA→FIDA→API3→PYTH→BAND→TRB→RLC",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "LINK",
+          "score": 33
+        },
+        {
+          "symbol": "DIA",
+          "score": 33
+        },
+        {
+          "symbol": "FIDA",
+          "score": 33
+        },
+        {
+          "symbol": "API3",
+          "score": 33
+        },
+        {
+          "symbol": "PYTH",
+          "score": 33
+        },
+        {
+          "symbol": "BAND",
+          "score": 33
+        },
+        {
+          "symbol": "TRB",
+          "score": 33
+        },
+        {
+          "symbol": "RLC",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "RAY→SOL→FIDA",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "RAY",
+          "score": 33
+        },
+        {
+          "symbol": "SOL",
+          "score": 33
+        },
+        {
+          "symbol": "FIDA",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "TKO→BNB",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "TKO",
+          "score": 33
+        },
+        {
+          "symbol": "BNB",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "MASK→FLUX→CFX→YGG→APE→AR→POL",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "MASK",
+          "score": 33
+        },
+        {
+          "symbol": "FLUX",
+          "score": 33
+        },
+        {
+          "symbol": "CFX",
+          "score": 33
+        },
+        {
+          "symbol": "YGG",
+          "score": 33
+        },
+        {
+          "symbol": "APE",
+          "score": 33
+        },
+        {
+          "symbol": "AR",
+          "score": 33
+        },
+        {
+          "symbol": "POL",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "FET→NMR→RENDER→GRT→GLM→LPT",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "FET",
+          "score": 33
+        },
+        {
+          "symbol": "NMR",
+          "score": 33
+        },
+        {
+          "symbol": "RENDER",
+          "score": 33
+        },
+        {
+          "symbol": "GRT",
+          "score": 33
+        },
+        {
+          "symbol": "GLM",
+          "score": 33
+        },
+        {
+          "symbol": "LPT",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "STEEM→HIVE",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "STEEM",
+          "score": 33
+        },
+        {
+          "symbol": "HIVE",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "GMT→ACA→PHA→KSM→DOT",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "GMT",
+          "score": 33
+        },
+        {
+          "symbol": "ACA",
+          "score": 33
+        },
+        {
+          "symbol": "PHA",
+          "score": 33
+        },
+        {
+          "symbol": "KSM",
+          "score": 33
+        },
+        {
+          "symbol": "DOT",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "STORJ→STRAX→AR",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "STORJ",
+          "score": 33
+        },
+        {
+          "symbol": "STRAX",
+          "score": 33
+        },
+        {
+          "symbol": "AR",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "ONG→ONT",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "ONG",
+          "score": 33
+        },
+        {
+          "symbol": "ONT",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "MANA→SAND→HIGH→PYR",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "MANA",
+          "score": 33
+        },
+        {
+          "symbol": "SAND",
+          "score": 33
+        },
+        {
+          "symbol": "HIGH",
+          "score": 33
+        },
+        {
+          "symbol": "PYR",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "SLP→AXS→RONIN",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "SLP",
+          "score": 33
+        },
+        {
+          "symbol": "AXS",
+          "score": 33
+        },
+        {
+          "symbol": "RONIN",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "VTHO→VET",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "VTHO",
+          "score": 33
+        },
+        {
+          "symbol": "VET",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "TFUEL→THETA",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "TFUEL",
+          "score": 33
+        },
+        {
+          "symbol": "THETA",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "XRP→XLM→HBAR→ALGO→QNT",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "XRP",
+          "score": 33
+        },
+        {
+          "symbol": "XLM",
+          "score": 33
+        },
+        {
+          "symbol": "HBAR",
+          "score": 33
+        },
+        {
+          "symbol": "ALGO",
+          "score": 33
+        },
+        {
+          "symbol": "QNT",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "GTC→CVC",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "GTC",
+          "score": 33
+        },
+        {
+          "symbol": "CVC",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "AUCTION→DEGO→FARM",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "AUCTION",
+          "score": 33
+        },
+        {
+          "symbol": "DEGO",
+          "score": 33
+        },
+        {
+          "symbol": "FARM",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "TWT→C98→SFP→SXP→ENA",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "TWT",
+          "score": 33
+        },
+        {
+          "symbol": "C98",
+          "score": 33
+        },
+        {
+          "symbol": "SFP",
+          "score": 33
+        },
+        {
+          "symbol": "SXP",
+          "score": 33
+        },
+        {
+          "symbol": "ENA",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "ROSE→OSMO→AXL→SCRT→ATOM",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "ROSE",
+          "score": 33
+        },
+        {
+          "symbol": "OSMO",
+          "score": 33
+        },
+        {
+          "symbol": "AXL",
+          "score": 33
+        },
+        {
+          "symbol": "SCRT",
+          "score": 33
+        },
+        {
+          "symbol": "ATOM",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "SOL→ETH→AVAX→SUI",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "SOL",
+          "score": 33
+        },
+        {
+          "symbol": "ETH",
+          "score": 33
+        },
+        {
+          "symbol": "AVAX",
+          "score": 33
+        },
+        {
+          "symbol": "SUI",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "COTI→ADA→CELO",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "COTI",
+          "score": 33
+        },
+        {
+          "symbol": "ADA",
+          "score": 33
+        },
+        {
+          "symbol": "CELO",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "GAS→NEO",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "GAS",
+          "score": 33
+        },
+        {
+          "symbol": "NEO",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "PIVX→SCRT→DUSK→CKB→SYS→PHA",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "PIVX",
+          "score": 33
+        },
+        {
+          "symbol": "SCRT",
+          "score": 33
+        },
+        {
+          "symbol": "DUSK",
+          "score": 33
+        },
+        {
+          "symbol": "CKB",
+          "score": 33
+        },
+        {
+          "symbol": "SYS",
+          "score": 33
+        },
+        {
+          "symbol": "PHA",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "GHST→LOKA→SLP→AXS",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "GHST",
+          "score": 33
+        },
+        {
+          "symbol": "LOKA",
+          "score": 33
+        },
+        {
+          "symbol": "SLP",
+          "score": 33
+        },
+        {
+          "symbol": "AXS",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "POLYX→ONE",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "POLYX",
+          "score": 33
+        },
+        {
+          "symbol": "ONE",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "OG→ALPINE→SANTOS→JUV→LAZIO→CHZ",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "OG",
+          "score": 33
+        },
+        {
+          "symbol": "ALPINE",
+          "score": 33
+        },
+        {
+          "symbol": "SANTOS",
+          "score": 33
+        },
+        {
+          "symbol": "JUV",
+          "score": 33
+        },
+        {
+          "symbol": "LAZIO",
+          "score": 33
+        },
+        {
+          "symbol": "CHZ",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "JOE→AVAX→QI→GMT",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "JOE",
+          "score": 33
+        },
+        {
+          "symbol": "AVAX",
+          "score": 33
+        },
+        {
+          "symbol": "QI",
+          "score": 33
+        },
+        {
+          "symbol": "GMT",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "PYR→ILV→ALICE→MBOX",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "PYR",
+          "score": 33
+        },
+        {
+          "symbol": "ILV",
+          "score": 33
+        },
+        {
+          "symbol": "ALICE",
+          "score": 33
+        },
+        {
+          "symbol": "MBOX",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "route": "XNO→LTC→COTI→ACH",
+      "score": 33,
+      "symbols": [
+        {
+          "symbol": "XNO",
+          "score": 33
+        },
+        {
+          "symbol": "LTC",
+          "score": 33
+        },
+        {
+          "symbol": "COTI",
+          "score": 33
+        },
+        {
+          "symbol": "ACH",
+          "score": 33
+        }
+      ]
+    }
+  ]
+}

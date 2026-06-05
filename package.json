@@ -1,0 +1,13 @@
+{
+  "name": "hc-terminal-pro",
+  "version": "7.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scan": "node scripts/scanFlows.js",
+    "score": "node scripts/routeStrength.js",
+    "alerts": "node scripts/telegramAlerts.js",
+    "heatmap": "node scripts/heatmapState.js",
+    "backtest:quick": "node scripts/backtestQuick.js"
+  }
+}

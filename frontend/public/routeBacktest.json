@@ -1,0 +1,47 @@
+{
+  "updatedAt": "2026-06-05T00:00:00.000Z",
+  "rows": [
+    {
+      "route": "HFT→LPT→QUICK→1INCH→CRV",
+      "samples": 12,
+      "winRate": 58,
+      "lastChange": 0.0021,
+      "lastTs": "2026-06-05T00:00:00.000Z"
+    },
+    {
+      "route": "LDO→ETH→OP→POL→ARB",
+      "samples": 18,
+      "winRate": 61,
+      "lastChange": -0.0012,
+      "lastTs": "2026-06-05T00:00:00.000Z"
+    },
+    {
+      "route": "LINK→DIA→FIDA→API3→PYTH→BAND→TRB→RLC",
+      "samples": 8,
+      "winRate": 50,
+      "lastChange": 0.0005,
+      "lastTs": "2026-06-05T00:00:00.000Z"
+    },
+    {
+      "route": "SOL→ETH→AVAX→SUI",
+      "samples": 22,
+      "winRate": 64,
+      "lastChange": 0.0034,
+      "lastTs": "2026-06-05T00:00:00.000Z"
+    },
+    {
+      "route": "RAY→SOL→FIDA",
+      "samples": 15,
+      "winRate": 53,
+      "lastChange": -0.0008,
+      "lastTs": "2026-06-05T00:00:00.000Z"
+    },
+    {
+      "route": "STEEM→HIVE",
+      "samples": 10,
+      "winRate": 40,
+      "lastChange": -0.0019,
+      "lastTs": "2026-06-05T00:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HC Terminal Pro</title>
+  <style>
+    :root{--bg:#0b0f17;--panel:#111827;--line:#1f2937;--text:#e5e7eb;--muted:#9ca3af;--accent:#10b981;--warn:#f59e0b;--danger:#ef4444}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial}
+    .container{max-width:960px;margin:0 auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    h1{font-size:18px;margin:0;letter-spacing:.2px}
+    .meta{font-size:12px;color:var(--muted)}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 6px;border-bottom:1px solid var(--line)}
+    .row:last-child{border-bottom:none}
+    .route{font-family:ui-monospace,SF Mono,Menlo,Consolas,monospace;font-size:14px}
+    .score{font-weight:700;min-width:38px;text-align:right}
+    .bar{height:8px;border-radius:999px;background:#1f2937;flex:1;margin:0 10px;overflow:hidden}
+    .bar > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#10b981,#34d399)}
+    .small{font-size:12px;color:var(--muted)}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    button{background:#0b0f17;color:var(--text);border:1px solid var(--line);padding:8px 12px;border-radius:10px;cursor:pointer}
+    button:hover{border-color:#334155}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#111827;border:1px solid var(--line)}
+    .ok{color:var(--accent)} .warn{color:var(--warn)} .bad{color:var(--danger)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>HC Terminal Pro</h1>
+        <div class="meta" id="updated">Belum ada data</div>
+      </div>
+      <div class="actions">
+        <button onclick="refresh()">Refresh</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:600">Route Score</div>
+          <div class="small">Skor kekuatan rute per simbol</div>
+        </div>
+        <div class="small" id="stats">—</div>
+      </div>
+      <div id="routes">
+        <div class="small">Mengambil data route score...</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:600">Backtest</div>
+          <div class="small">Performa terakhir (win rate) berdasarkan history backtest</div>
+        </div>
+        <div class="small" id="backStats">—</div>
+      </div>
+      <div id="backtest">
+        <div class="small">Mengambil data backtest...</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:600">Scan Flows</div>
+          <div class="small">Daftar rute aktif yang dilacak</div>
+        </div>
+        <div class="pill" id="flowCount">0 rute</div>
+      </div>
+      <div id="flows"></div>
+    </section>
+  </div>
+
+  <script type="module">
+    const el = (id) => document.getElementById(id);
+    const fmt = (n) => (Number.isFinite(n) ? `${n}` : '—');
+
+    async function loadJSON(url) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(res.status);
+        return await res.json();
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    }
+
+    function renderRoutes(data) {
+      const root = el('routes');
+      if (!data || !Array.isArray(data.scores)) {
+        root.innerHTML = `<div class="small">Belum ada data.</div>`;
+        el('stats').textContent = '—';
+        el('updated').textContent = 'Belum ada data routeStrength.json';
+        return;
+      }
+      const scores = [...data.scores].sort((a, b) => b.score - a.score);
+      el('updated').textContent = `Diperbarui: ${data.updatedAt}`;
+      el('stats').textContent = `${scores.length} rute`;
+      root.innerHTML = scores.map(({ route, score }) => {
+        const pct = Math.max(0, Math.min(100, score));
+        const cls = pct >= 70 ? 'ok' : pct >= 45 ? 'warn' : 'bad';
+        return `<div class="row">
+          <div class="route">${escapeHtml(route)}</div>
+          <div class="bar"><i style="width:${pct}%"></i></div>
+          <div class="score ${cls}">${pct}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderBacktest(data) {
+      const root = el('backtest');
+      if (!data || !Array.isArray(data.rows)) {
+        root.innerHTML = `<div class="small">Belum ada data backtest.</div>`;
+        el('backStats').textContent = '—';
+        return;
+      }
+      const rows = [...data.rows].sort((a, b) => (b.winRate ?? 0) - (a.winRate ?? 0));
+      el('backStats').textContent = `${rows.length} rute`;
+      root.innerHTML = rows.map((r) => {
+        const wr = r.winRate == null ? null : Number(r.winRate);
+        const cls = wr == null ? '' : wr >= 60 ? 'ok' : wr >= 40 ? 'warn' : 'bad';
+        const last = wr == null ? '—' : `${wr}% (n=${r.samples})`;
+        return `<div class="row">
+          <div class="route">${escapeHtml(r.route)}</div>
+          <div class="small">last: ${escapeHtml(r.lastChange ?? '—')}</div>
+          <div class="score ${cls}">${last}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderFlows(ROUTES) {
+      const root = el('flows');
+      if (!Array.isArray(ROUTES) || !ROUTES.length) {
+        root.innerHTML = `<div class="small">Tidak ada rute.</div>`;
+        el('flowCount').textContent = '0 rute';
+        return;
+      }
+      el('flowCount').textContent = `${ROUTES.length} rute`;
+      root.innerHTML = [...ROUTES].sort().map((r) => `<div class="row"><div class="route">${escapeHtml(r)}</div></div>`).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+
+    async function refresh() {
+      const [strength, backtest, scan] = await Promise.all([
+        loadJSON('./routeStrength.json'),
+        loadJSON('./routeBacktest.json'),
+        fetch('./scripts/scanFlows.js').then(async r => {
+          const txt = await r.text();
+          const m = txt.match(/export const ROUTES = ([\s\S]*?);/);
+          if (!m) return [];
+          const arr = eval('(' + m[1].trim() + ')');
+          if (!Array.isArray(arr)) return [];
+          return arr.filter((x) => typeof x === 'string' && x.trim());
+        }).catch(() => [])
+      ]);
+
+      renderRoutes(strength);
+      renderBacktest(backtest);
+      renderFlows(scan);
+    }
+
+    refresh();
+    setInterval(refresh, 1000 * 60);
+  </script>
+</body>
+</html>
