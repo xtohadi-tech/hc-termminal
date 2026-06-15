@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuaca — HC Weather</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top-bar">
+      <span class="time">05.56</span>
+      <div class="icons">
+        <span>🕒</span><span>📶</span><span>🔋</span><span>⚡</span>
+      </div>
+    </header>
+
+    <div class="search-box">
+      <input id="cityInput" type="text" placeholder="Cari kota..." />
+      <button id="searchBtn">Cari</button>
+    </div>
+
+    <section class="card alert-card">
+      <div>
+        <strong>Hujan akan terus berlanjut selama sekitar 6 jam</strong>
+      </div>
+      <small>Hujan ringan hingga sedang akan terus berlanjut hingga pukul 11.05</small>
+    </section>
+
+    <section class="card summary-card">
+      <div class="summary-row">
+        <span>Lebat</span>
+        <span>Sedang</span>
+        <span>Ringan</span>
+      </div>
+      <div class="bar-chart">
+        <div class="bar" style="height:30%"></div>
+        <div class="bar" style="height:45%"></div>
+        <div class="bar" style="height:60%"></div>
+        <div class="bar" style="height:75%"></div>
+        <div class="bar" style="height:90%"></div>
+        <div class="bar" style="height:85%"></div>
+        <div class="bar" style="height:70%"></div>
+        <div class="bar" style="height:55%"></div>
+        <div class="bar" style="height:40%"></div>
+        <div class="bar" style="height:35%"></div>
+      </div>
+      <div class="time-labels">
+        <span>05.30</span><span>06.00</span><span>06.</span>
+      </div>
+    </section>
+
+    <section class="card current-card">
+      <div class="current-main">
+        <div class="temp">17°</div>
+        <div class="icon">🌧️</div>
+      </div>
+      <div class="current-desc">Hujan ringan hingga sedang</div>
+      <div class="feels">Terasa seperti 16°</div>
+
+      <div class="hourly">
+        <div class="hour">
+          <span>16°</span>
+          <span class="ic">🌧️</span>
+          <span>100%</span>
+          <small>07.00</small>
+        </div>
+        <div class="hour">
+          <span>16°</span>
+          <span class="ic">🌧️</span>
+          <span>90%</span>
+          <small>08.00</small>
+        </div>
+        <div class="hour">
+          <span>17°</span>
+          <span class="ic">🌧️</span>
+          <span>80%</span>
+          <small>09.00</small>
+        </div>
+        <div class="hour">
+          <span>17°</span>
+          <span class="ic">🌧️</span>
+          <span>50%</span>
+          <small>10.00</small>
+        </div>
+        <div class="hour">
+          <span>17°</span>
+          <span class="ic">🌧️</span>
+          <span>30%</span>
+          <small>11.00</small>
+        </div>
+        <div class="hour">
+          <span>18°</span>
+          <span class="ic">☁️</span>
+          <span>—</span>
+          <small>12.00</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="card insight-card">
+      <strong>Cuaca diperkirakan akan memanas selama 2 hari ke depan</strong>
+    </section>
+
+    <section class="daily">
+      <div class="day">
+        <div class="day-name">Sen</div>
+        <div class="day-icon">🌦️</div>
+        <div class="day-temp">18°/16°</div>
+      </div>
+      <div class="day">
+        <div class="day-name">Sel</div>
+        <div class="day-icon">☀️</div>
+        <div class="day-temp">21°/15°</div>
+      </div>
+      <div class="day">
+        <div class="day-name">Rab</div>
+        <div class="day-icon">⛅</div>
+        <div class="day-temp">23°/16°</div>
+      </div>
+      <div class="day">
+        <div class="day-name">Kam</div>
+        <div class="day-icon">🌧️</div>
+        <div class="day-temp">19°/19°</div>
+      </div>
+      <div class="day">
+        <div class="day-name">Jum</div>
+        <div class="day-icon">☁️</div>
+        <div class="day-temp">26°/20°</div>
+      </div>
+      <div class="day">
+        <div class="day-name">Sab</div>
+        <div class="day-icon">☁️</div>
+        <div class="day-temp">22°/18°</div>
+      </div>
+    </section>
+
+    <section class="details">
+      <div class="detail">
+        <span>🌧️ Precipitasi · 100%</span>
+      </div>
+      <div class="detail">
+        <span>💨 Angin · 5 km/j</span>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
