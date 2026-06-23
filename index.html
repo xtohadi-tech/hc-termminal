@@ -340,6 +340,71 @@ html,body{background:linear-gradient(180deg,#0b1222,#0f172a 45%,#0b1222);color:#
 /* NOTIF */
 #notif{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:8px 13px;font-size:11px;color:var(--accent);z-index:999;display:none;white-space:nowrap;max-width:90vw;box-shadow:0 4px 24px rgba(0,0,0,.5)}
 
+/* CUACA */
+#cuacaOut .card{
+  background:linear-gradient(180deg,#0f172a,#0b1222);
+  border:1px solid #1f2f44;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:10px;
+  box-shadow:0 14px 34px rgba(0,0,0,.3)
+}
+.cuaca-card{
+  display:flex;
+  flex-direction:column;
+  gap:6px
+}
+.cuaca-card .current-main{
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
+.cuaca-card .temp{
+  font-size:4.5rem;
+  font-weight:700;
+  color:var(--text)
+}
+.cuaca-card .icon{
+  font-size:3.6rem
+}
+.cuaca-card .current-desc{
+  color:var(--text2);
+  font-size:12px
+}
+.cuaca-card .feels{
+  color:var(--text3);
+  font-size:11px
+}
+.cuaca-card .hourly{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding-top:4px
+}
+.cuaca-card .hour{
+  min-width:72px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  font-size:10px;
+  color:var(--text3)
+}
+.cuaca-card .hour .ic{
+  font-size:1.4rem
+}
+.cuaca-detail-card{
+  display:flex;
+  gap:8px
+}
+.cuaca-detail-card .detail{
+  flex:1;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:10px
+}
+
 /* LIGHT THEME */
 body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4e8;--border2:#b0c0d8;--text:#1a2744;--text2:#4a5a7a;--text3:#7a8aaa}
 
@@ -483,6 +548,7 @@ body.modern-ui .cal-event{
   <button class="tab-btn" onclick="sw('kalender',this)">📅 KALENDER</button>
   <button class="tab-btn" onclick="sw('route-score',this)">📈 ROUTE SCORE</button>
   <button class="tab-btn" onclick="sw('backtest',this)">🧪 BACKTEST</button>
+  <button class="tab-btn" onclick="sw('cuaca',this)">🌦️ CUACA</button>
 </div>
 
 <div class="main">
@@ -705,6 +771,18 @@ body.modern-ui .cal-event{
     <span style="font-size:10px;color:var(--text3);margin-left:6px" id="backtest-update">Belum dijalankan</span>
   </div>
   <div id="backtestOut"><div class="empty">Scan dulu, lalu jalankan backtest.</div></div>
+</div>
+
+<!-- CUACA -->
+<div id="sec-cuaca" class="sec">
+  <div class="lbl">📍 Perkiraan Cuaca</div>
+  <div class="info-box">Sumber: wttr.in · Cari cuaca kota mana pun, langsung dari HC Terminal.</div>
+  <div class="warn-box">⚠️ Data cuaca bersifat estimasi. Untuk kondisi darurat, periksa sumber resmi BMKG.</div>
+  <div class="btn-row">
+    <input id="cuaca-city" placeholder="Masukkan kota, contoh: Jakarta" style="flex:1;background:#0f172a;border:1px solid #1f2f44;border-radius:12px;color:#e2e8f0;font-family:var(--mono);font-size:11px;padding:9px 12px">
+    <button class="btn-sm" onclick="doCuaca()">Cari Cuaca</button>
+  </div>
+  <div id="cuacaOut"><div class="empty">Masukkan nama kota lalu tekan Cari Cuaca.</div></div>
 </div>
 
 </div><!-- end main -->
@@ -2210,6 +2288,83 @@ function buildBacktestRows(){
     rows.push({id: `J${String(i+1).padStart(2,'0')}`, route: row.join(' -> '), next, consistency});
   });
   return rows;
+}
+// ============================================================
+// CUACA
+// ============================================================
+function doCuaca(){
+  const city = (document.getElementById('cuaca-city').value || '').trim();
+  if (!city) { showNotif('Masukkan kota dulu', 'warn'); return; }
+  const out = document.getElementById('cuacaOut');
+  if (!out) return;
+  out.innerHTML = '<div class="empty">Mengambil data cuaca...</div>';
+  const url = `https://wttr.in/${encodeURIComponent(city)}?format=j1`;
+  fetch(url, {signal: AbortSignal.timeout(10000)})
+    .then(r => r.ok ? r.json() : Promise.reject(new Error('wttr gagal')))
+    .then(data => {
+      const cur = data.current_condition && data.current_condition[0] ? data.current_condition[0] : null;
+      const nearest = data.weather && data.weather[0] ? data.weather[0] : null;
+      if (!cur) throw new Error('data kosong');
+      const desc = (cur.weatherDesc && cur.weatherDesc[0] && cur.weatherDesc[0].value) ? cur.weatherDesc[0].value : '—';
+      const temp = cur.temp_C || '—';
+      const feels = cur.FeelsLikeC || '—';
+      const humidity = cur.humidity || '—';
+      const wind = cur.windspeedKmph || '—';
+      const maxt = nearest ? nearest.maxtempC : '—';
+      const mint = nearest ? nearest.mintempC : '—';
+      const hourly = (nearest && nearest.hourly && Array.isArray(nearest.hourly)) ? nearest.hourly.slice(0,6) : [];
+      const iconMap = {
+        'Partly cloudy': '⛅',
+        'Cloudy': '☁️',
+        'Overcast': '☁️',
+        'Sunny': '☀️',
+        'Clear': '🌙',
+        'Light rain': '🌦️',
+        'Moderate rain': '🌧️',
+        'Heavy rain': '⛈️',
+        'Patchy rain': '🌦️',
+        'Mist': '🌫️',
+        'Fog': '🌫️',
+        'Snow': '❄️',
+        'Thunder': '⛈️'
+      };
+      const getIcon = (d) => {
+        const raw = (d && d.weatherDesc && d.weatherDesc[0] && d.weatherDesc[0].value) || '';
+        const key = Object.keys(iconMap).find(k => raw.toLowerCase().includes(k.toLowerCase()));
+        return key ? iconMap[key] : '🌡️';
+      };
+      const hourlyBlock = hourly.map(h => {
+        const time = parseInt(h.time || '0', 10);
+        const hh = String(Math.floor(time / 100)).padStart(2,'0');
+        const mm = String(time % 100).padStart(2,'0');
+        const label = hh + ':' + mm;
+        const icon = getIcon(h);
+        const chance = h.chanceofrain || '0';
+        const t = h.tempC || temp;
+        return `<div class=\"hour\"><span>${t}°</span><span class=\"ic\">${icon}</span><span>${chance}%</span><small>${label}</small></div>`;
+      }).join('');
+      const html = `
+<div class=\"card cuaca-card\">
+  <div class=\"current-main\">
+    <div class=\"temp\">${temp}°</div>
+    <div class=\"icon\">${getIcon(cur)}</div>
+  </div>
+  <div class=\"current-desc\">${desc}</div>
+  <div class=\"feels\">Terasa seperti ${feels}° · ${mint}°–${maxt}°</div>
+  <div class=\"hourly\">${hourlyBlock || '<div class=\"empty\">Data per jam tidak tersedia</div>'}</div>
+</div>
+<div class=\"card cuaca-detail-card\">
+  <div class=\"detail\"><span>💧 Kelembaban</span><span style=\"color:var(--text);font-weight:600\">${humidity}%</span></div>
+  <div class=\"detail\"><span>💨 Angin</span><span style=\"color:var(--text);font-weight:600\">${wind} km/j</span></div>
+</div>`;
+      out.innerHTML = html;
+      const upd = document.getElementById('cuaca-update');
+      if (upd) upd.textContent = 'Update: ' + new Date().toLocaleTimeString('id-ID');
+      showNotif('Cuaca ' + city + ' diperbarui', 'success');
+    })
+    .catch(() => {
+      out.innerHTML = '<div class="warn-box">Gagal mengambil data cuaca untuk kota tersebut. Coba kota lain atau periksa koneksi.</div>';
+    });
 }
 </script>
 </body>
