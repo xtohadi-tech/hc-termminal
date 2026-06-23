@@ -342,6 +342,81 @@ html,body{background:linear-gradient(180deg,#0b1222,#0f172a 45%,#0b1222);color:#
 
 /* LIGHT THEME */
 body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4e8;--border2:#b0c0d8;--text:#1a2744;--text2:#4a5a7a;--text3:#7a8aaa}
+
+/* ============================================================
+   UI UPGRADE — Modern Variant (aktiv via .modern-ui)
+   ============================================================ */
+body.modern-ui{
+  /* palet lebih clean + consistency */
+  --accent:#22d3ee;
+}
+body.modern-ui .header{
+  padding:14px 16px;
+  border-bottom:1px solid rgba(15,23,42,.8);
+}
+body.modern-ui .hdr-title{
+  letter-spacing:1.2px;
+  font-weight:700;
+  text-shadow:0 0 20px rgba(34,211,238,.25);
+}
+body.modern-ui .hdr-sub{
+  color:#94a3b8;
+}
+body.modern-ui .theme-btn{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:saturate(140%) blur(12px);
+  transition:transform .15s ease, border-color .15s ease;
+}
+body.modern-ui .theme-btn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(248,250,252,.35);
+}
+body.modern-ui .hstat{
+  background:rgba(15,23,42,.45);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
+}
+body.modern-ui .tab-btn{
+  padding:8px 16px;
+  border-radius:12px;
+  font-weight:500;
+  letter-spacing:.2px;
+  transition:all .2s ease;
+}
+body.modern-ui .tab-btn.on{
+  box-shadow:0 8px 22px rgba(34,211,238,.18);
+}
+body.modern-ui .btn-sm{
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+body.modern-ui .ticker-card{
+  border-radius:18px;
+  box-shadow:0 16px 40px rgba(0,0,0,.35);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+body.modern-ui .ticker-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 22px 55px rgba(0,0,0,.45);
+}
+body.modern-ui .sess-time-item,
+body.modern-ui .sesi-time-item{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;
+}
+body.modern-ui .sesi-countdown{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;
+}
+body.modern-ui .cal-event{
+  background:rgba(15,23,42,.45);
+  border-radius:14px;
+  box-shadow:0 14px 34px rgba(0,0,0,.3);
+}
 </style>
 </head>
 <body>
@@ -357,6 +432,7 @@ body.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8edf5;--bg4:#dde4ef;--border:#c8d4
     <div class="hdr-right">
       <div class="hdr-time" id="hdr-clock">—</div>
       <button class="theme-btn" onclick="toggleTheme()" title="Toggle tema">🌙</button>
+      <button class="theme-btn" id="ui-v2-toggle" onclick="toggleModernUI()" title="UI Modern">✨</button>
     </div>
   </div>
   <!-- Fear & Greed -->
@@ -875,10 +951,17 @@ function showNotif(msg,type='info'){
 function toggleTheme(){
   document.body.classList.toggle('light');
   const isLight=document.body.classList.contains('light');
-  document.querySelector('.theme-btn').textContent=isLight?'🌙':'☀️';
+  const themeBtn=document.querySelector('.theme-btn');
+  if(themeBtn) themeBtn.textContent=isLight?'🌙':'☀️';
   try{localStorage.setItem('hc_theme',isLight?'light':'dark');}catch(e){}
 }
-try{if(localStorage.getItem('hc_theme')==='light'){document.body.classList.add('light');document.querySelector('.theme-btn').textContent='🌙';}}catch(e){}
+function toggleModernUI(){
+  document.body.classList.toggle('modern-ui');
+  const on=document.body.classList.contains('modern-ui');
+  try{localStorage.setItem('hc_ui_v2',on?'on':'off');}catch(e){}
+}
+try{if(localStorage.getItem('hc_theme')==='light'){document.body.classList.add('light');const themeBtn=document.querySelector('.theme-btn');if(themeBtn) themeBtn.textContent='🌙';}}catch(e){}
+try{if(localStorage.getItem('hc_ui_v2')==='on') document.body.classList.add('modern-ui');}catch(e){}
 
 // ============================================================
 // TABS
